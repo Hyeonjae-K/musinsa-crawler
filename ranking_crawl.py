@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+import re
 
 driver = webdriver.Chrome()
 products = {}
@@ -10,15 +11,8 @@ for pagenum in range(1, 101):
     titles = driver.find_elements_by_css_selector("p.list_info > a")
     prices = driver.find_elements_by_css_selector("p.price")
     for i in range(len(titles)):
-        f.write(str(titles[i].get_attribute("title")) + "\n")
-        f.write(str(prices[i].text) + "\n")
-
-
-#driver.get("http://www.python.org")
-# assert "Python" in driver.title
-# elem = driver.find_element_by_name("q")
-# elem.clear()
-# elem.send_keys("pycon")
-# elem.send_keys(Keys.RETURN)
-# assert "No results found." not in driver.page_source
-# driver.close()
+        titleStr = str(titles[i].get_attribute("title")).strip()
+        priceStr = str(prices[i].text)
+        if priceStr.count("원") == 2:
+            priceStr = priceStr.replace(priceStr[:priceStr.find("원") + 1], "").strip()
+        print(priceStr)
