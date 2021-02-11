@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import re
 
+
+startTime = time.time()
 driver = webdriver.Chrome()
-products = {}
+
 f = open("test.txt", "w", encoding="utf-8")
-for pagenum in range(1, 101):
-    driver.get("https://search.musinsa.com/ranking/best?period=now&mainCategory=&subCategory=&leafCategory=&price=&golf=false&newProduct=false&exclusive=false&discount=false&soldOut=false&page=%d&viewType=small&device=&priceMin=&priceMax=" % pagenum)
+for pageNum in range(1, 11):
+    driver.get("https://search.musinsa.com/ranking/best?period=now&mainCategory=&subCategory=&leafCategory=&price=&golf=false&newProduct=false&exclusive=false&discount=false&soldOut=false&page=%d&viewType=small&device=&priceMin=&priceMax=" % pageNum)
     titles = driver.find_elements_by_css_selector("p.list_info > a")
     prices = driver.find_elements_by_css_selector("p.price")
     for i in range(len(titles)):
@@ -17,3 +18,6 @@ for pagenum in range(1, 101):
             priceStr = priceStr.replace(priceStr[:priceStr.find("원") + 1], "").strip()
         if(titleStr != ''):
             f.write(titleStr + " " + priceStr + "\n")
+
+print(time.time() - startTime)
+driver.close()
