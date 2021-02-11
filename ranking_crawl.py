@@ -15,4 +15,5 @@ for pagenum in range(1, 101):
         priceStr = str(prices[i].text)
         if priceStr.count("원") == 2:
             priceStr = priceStr.replace(priceStr[:priceStr.find("원") + 1], "").strip()
-        print(priceStr)
+        if(titleStr != ''):
+            f.write(titleStr + " " + priceStr + "\n")
