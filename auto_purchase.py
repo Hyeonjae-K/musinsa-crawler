@@ -41,4 +41,10 @@ inputPw.send_keys(Keys.ENTER)
 
 mainDriver.find_element_by_css_selector(productSize).click()
 
-# timeDriver.close()
+while True:
+    getTime = timeDriver.find_element_by_css_selector("#time_area").text
+    getTime = int(getTime[getTime.find("일") + 2:getTime.find("분")].replace("시 ", ""))
+    if getTime >= openTime:
+        break
+
+mainDriver.find_element_by_css_selector("#product_order_info > div.explan_product.option_select_section.opt-select-box > div.box-btn-buy.wrap-btn-buy > div.btn_buy > a").send_keys(Keys.ENTER)
