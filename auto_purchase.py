@@ -2,10 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 
-productUrl = input("Enter the product url: ")
-# productSize = input("Enter the product size: ")
-openTime = int(input("Enter the open time by 24 hour system(hhmm): "))
-loginTime = int(input("Enter the number of minutes to login(<=60): "))
+f = open("info.txt", "r", encoding="utf-8")
+productUrl = f.readline().strip()
+productSize = f.readline().strip()
+openTime = int(f.readline().strip())
+loginTime = int(f.readline().strip())
+loginId = f.readline().strip()
+loginPw = f.readline().strip()
+f.close()
 
 if openTime % 100 < loginTime:
     loginTime = openTime - 40 - loginTime
@@ -28,15 +32,13 @@ while True:
 
 mainDriver = webdriver.Chrome()
 mainDriver.get(productUrl)
-with open("info.txt", "r", encoding="utf-8") as f:
-    mainDriver.find_element_by_css_selector("#default_top > div.header-member > button").click()
-    id = f.readline().strip()
-    pw = f.readline().strip()
-    inputId = mainDriver.find_element_by_css_selector("body > div.bottom-column.column.clearfix.n-member-area > div > div.loginBoxV3 > form > span.id > input")
-    inputId.send_keys(id)
-    inputPw = mainDriver.find_element_by_css_selector("body > div.bottom-column.column.clearfix.n-member-area > div > div.loginBoxV3 > form > span.pass > input")
-    inputPw.send_keys(pw)
-    inputPw.send_keys(Keys.ENTER)
+mainDriver.find_element_by_css_selector("#default_top > div.header-member > button").click()
+inputId = mainDriver.find_element_by_css_selector("body > div.bottom-column.column.clearfix.n-member-area > div > div.loginBoxV3 > form > span.id > input")
+inputId.send_keys(loginId)
+inputPw = mainDriver.find_element_by_css_selector("body > div.bottom-column.column.clearfix.n-member-area > div > div.loginBoxV3 > form > span.pass > input")
+inputPw.send_keys(loginPw)
+inputPw.send_keys(Keys.ENTER)
 
+mainDriver.find_element_by_css_selector(productSize).click()
 
 # timeDriver.close()
