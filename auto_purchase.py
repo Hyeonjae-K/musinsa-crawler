@@ -48,3 +48,6 @@ while True:
         break
 
 mainDriver.find_element_by_css_selector("#product_order_info > div.explan_product.option_select_section.opt-select-box > div.box-btn-buy.wrap-btn-buy > div.btn_buy > a").send_keys(Keys.ENTER)
+time.sleep(0.1)
+mainDriver.find_element_by_css_selector("#payment_info_area > ul:nth-child(9) > li.cell_discount_detail.last > p:nth-child(1) > label > input[type=checkbox]").click()
+mainDriver.find_element_by_css_selector("#btn_pay").send_keys(Keys.ENTER)
