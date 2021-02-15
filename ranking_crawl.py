@@ -5,8 +5,7 @@ from selenium.webdriver.common.keys import Keys
 def crawl_now_ranking():
     with open("now_ranking.txt", "w", encoding="utf-8") as f:
         for pageNum in range(1, 101):
-            driver.get(
-                "https://search.musinsa.com/ranking/best?period=now&mainCategory=&subCategory=&leafCategory=&price=&golf=false&newProduct=false&exclusive=false&discount=false&soldOut=false&page=%d&viewType=small&device=&priceMin=&priceMax=" % pageNum)
+            driver.get("https://search.musinsa.com/ranking/best?period=now&mainCategory=&subCategory=&leafCategory=&price=&golf=false&newProduct=false&exclusive=false&discount=false&soldOut=false&page=%d&viewType=small&device=&priceMin=&priceMax=" % pageNum)
             titles = driver.find_elements_by_css_selector("#goodsRankList > li > div.li_inner > div.article_info > p.list_info > a")
             prices = driver.find_elements_by_css_selector("#goodsRankList > li > div.li_inner > div.article_info > p.price")
             images = driver.find_elements_by_css_selector("#goodsRankList > li > div.li_inner > div.list_img > a > img")
