@@ -58,7 +58,13 @@ def click_cool():
 
 
 def delete_comment():
-    driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(6) > div.info > label").click()
+    while True:
+        try:
+            driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(6) > div.info > label").click()
+        except:
+            continue
+        else:
+            break
     time.sleep(1)
     driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(6) > div.info > label > div > a:nth-child(2)").click()
     time.sleep(1)
