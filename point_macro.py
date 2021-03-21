@@ -25,7 +25,8 @@ def login():
 
 
 def open_page():
-    driver.get("https://magazine.musinsa.com/index.php?m=magazine&uid=15890")
+    url = f.readline().strip()
+    driver.get(url)
 
 
 def write_comment(comment, count):
