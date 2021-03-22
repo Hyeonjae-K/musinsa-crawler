@@ -74,9 +74,9 @@ def run(data):
         driver.get(key)
 
         if check_last_word(data[key]):
-            comment = "{brand}".format(brand=data[key])
+            comment = "{brand}이 {brand}했다".format(brand=data[key])
         else:
-            comment = "{brand}".format(brand=data[key])
+            comment = "{brand}가 {brand}했다".format(brand=data[key])
 
         while True:
             if time.time() - write_time > 10.1:
