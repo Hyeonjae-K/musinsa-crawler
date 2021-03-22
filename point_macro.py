@@ -44,17 +44,12 @@ def write_comment(comment, count):
     comment_input.send_keys(comment + str(count))
 
     driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment").send_keys(Keys.ENTER)
-    time.sleep(1)
     driver.switch_to.alert.accept()
-    time.sleep(1)
-    driver.refresh()
+    time.sleep(3)
 
 
 def click_cool():
-    time.sleep(1)
     driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(5) > div.info > div.score.ui-require-all > a.ui-require-cool").click()
-    time.sleep(1)
-    driver.refresh()
 
 
 def delete_comment():
@@ -65,12 +60,9 @@ def delete_comment():
             continue
         else:
             break
-    time.sleep(1)
     driver.find_element_by_css_selector("#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(6) > div.info > label > div > a:nth-child(2)").click()
-    time.sleep(1)
     driver.switch_to.alert.accept()
-    time.sleep(1)
-    driver.refresh()
+    time.sleep(3)
 
 
 def run_macro():
@@ -79,13 +71,17 @@ def run_macro():
 
     write_comment(comment, count)
     click_cool()
-    time.sleep(4)
+    time.sleep(5)
 
     while True:
         count += 1
         write_comment(comment, count)
+        start_time = time.time()
         click_cool()
         delete_comment()
+        while True:
+            if time.time() - start_time > 10.1:
+                break
 
 
 login()
