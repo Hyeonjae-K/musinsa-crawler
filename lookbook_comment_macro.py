@@ -81,6 +81,7 @@ def run(data):
         while True:
             if time.time() - write_time > 10.1:
                 break
+            time.sleep(0.1)
 
         write_comment(comment)
         write_time = time.time()
@@ -92,5 +93,6 @@ for page_num in range(1, 11):
     open_page(page_num)
     data = get_data()
     run(data)
+    time.sleep(10)
 
 driver.close()
