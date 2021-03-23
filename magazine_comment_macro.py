@@ -91,5 +91,4 @@ def run(data):
 login()
 open_page(1)
 data = get_data()
-for d in
 run(data)
