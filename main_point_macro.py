@@ -198,7 +198,11 @@ def update():
         contents = driver.find_elements_by_css_selector("body > div.wrap > div.right_area.news_list > div.news_contents")
 
         for content in contents:
-            content.find_element_by_css_selector("#contentComment > p > a").click()
+            try:
+                content.find_element_by_css_selector("#contentComment > p > a").click()
+            except:
+                continue
+
             content.find_element_by_css_selector("div > div > div > ul > div.gWarea > form > div.cFormTriger > span").click()
 
             if nick in content.find_element_by_css_selector("div.comment").text:
