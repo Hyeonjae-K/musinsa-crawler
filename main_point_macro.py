@@ -65,100 +65,125 @@ def write_comment(text_css, area_css, submit_css, comment):
 
 
 def click_cool(cool_css):
-    while True:
-        try:
-            driver.find_element_by_css_selector(cool_css).click()
-        except:
-            time.sleep(0.1)
-            continue
-        else:
-            break
+    try:
+        driver.find_element_by_css_selector(cool_css).click()
+    except:
+        driver.switch_to.alert.accept()
 
 
 def check_commented(comment_css):
     if nick in driver.find_element_by_css_selector(comment_css).text:
+        time.sleep(10)
         return True
     return False
 
 
+def check_time(write_time):
+    while True:
+        if time.time() - write_time > 10:
+            return
+        time.sleep(0.1)
+
+
 def news():
     page_num = 1
+    write_time = 0
+
+    url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.news > div > ul > li > div.articleImg > a"
+    brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.news > div > ul > li > div.articleInfo.info > div.info > b > a > span"
+    comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div"
+    text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
+    area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
+    submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
+    cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > li > div.info > div.score.ui-require-all > a.ui-require-cool"
 
     while True:
         driver.get("https://magazine.musinsa.com/index.php?m=news&p=%d" % page_num)
         page_num += 1
 
-        url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.news > div > ul > li > div.articleImg > a"
-        brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.news > div > ul > li > div.articleInfo.info > div.info > b > a > span"
-        comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div"
-        text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
-        area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
-        submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
-        cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div.content-wrapper.article.wrapper > div > div.replyBoard-box.box > div.postRight > div > div > ul > li > div.info > div.score.ui-require-all > a.ui-require-cool"
-
         urls, brands = get_data(url_css, brand_css)
 
         for i in range(len(urls)):
             driver.get(urls[i])
+
             if check_commented(comment_css):
                 return
+
             comment = get_comment(brands[i])
 
+            check_time(write_time)
+
             write_comment(text_css, area_css, submit_css, comment)
+            write_time = time.time()
+
             click_cool(cool_css)
 
 
 def magazine():
     page_num = 1
+    write_time = 0
+
+    url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div > div > ul > li > div.articleImg > a"
+    brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div > div > ul > li > div.articleInfo > div.info > b > a > span"
+    comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div"
+    text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
+    area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
+    submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
+    cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(5) > div.info > div.score.ui-require-all > a.ui-require-cool"
 
     while True:
         driver.get("https://magazine.musinsa.com/?m=magazine&sort=dataDate&p=%d" % page_num)
         page_num += 1
 
-        url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div > div > ul > li > div.articleImg > a"
-        brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.main-content > div > div > ul > li > div.articleInfo > div.info > b > a > span"
-        comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div"
-        text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
-        area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
-        submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
-        cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div:nth-child(3) > div > div > div.replyBoard-box.box > div.postRight > div > div > ul > li:nth-child(5) > div.info > div.score.ui-require-all > a.ui-require-cool"
-
         urls, brands = get_data(url_css, brand_css)
 
         for i in range(len(urls)):
             driver.get(urls[i])
+
             if check_commented(comment_css):
                 return
+
             comment = get_comment(brands[i])
 
+            check_time(write_time)
+
             write_comment(text_css, area_css, submit_css, comment)
+            write_time = time.time()
+
             click_cool(cool_css)
 
 
 def lookbook():
     page_num = 1
+    write_time = 0
+
+    url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.wrapper > div > div.boxed-list-wrapper > div.list-box.box > ul > li > div.articleImg > a"
+    brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.wrapper > div > div.boxed-list-wrapper > div.list-box.box > ul > li > div.articleInfo > div.category > span"
+    comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div"
+    text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
+    area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
+    submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
+    cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > li > div.info > div.score.ui-require-all > a.ui-require-cool"
 
     while True:
         driver.get("https://magazine.musinsa.com/index.php?m=lookbook&sort=dataDate&p=%d" % page_num)
         page_num += 1
 
-        url_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.wrapper > div > div.boxed-list-wrapper > div.list-box.box > ul > li > div.articleImg > a"
-        brand_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.wrapper > div > div.boxed-list-wrapper > div.list-box.box > ul > li > div.articleInfo > div.category > span"
-        comment_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div"
-        text_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormTriger > span"
-        area_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.cForm > textarea"
-        submit_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > div.gWarea > form > div.cFormBox.groupType-cForm > div.btnGroup > div > input.submit.mcmment-command-submit-comment"
-        cool_css = "#wrapper > div.bottom-column.column.clearfix > div.main-content-wrapper > div.content-wrapper.article.wrapper > div.replyBoard-box.box > div.postRight > div > div > ul > li > div.info > div.score.ui-require-all > a.ui-require-cool"
-
         urls, brands = get_data(url_css, brand_css)
 
         for i in range(len(urls)):
             driver.get(urls[i])
+
             if check_commented(comment_css):
                 return
+
             comment = get_comment(brands[i])
 
+            check_time(write_time)
+
             write_comment(text_css, area_css, submit_css, comment)
+            write_time = time.time()
+
             click_cool(cool_css)
 
 
